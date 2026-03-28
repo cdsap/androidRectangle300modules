@@ -21,6 +21,6 @@ jobs:
         with:
           remote_monitoring: 'true'
       - name: Test Android Library
-        run: ./gradlew assembleDebug
+        run: ./gradlew assemble
         env:
           DEVELOCITY_ACCESS_KEY: ${{ secrets.GE_API_KEY }}
