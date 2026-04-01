@@ -15,19 +15,26 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh run download 23719062741 \
+          gh run download 23775198979 \
             --repo cdsap/im-not-ok-metrics \
-            --name custom-jdk-linux-9ad2e63f1763 \
+            --name custom-jdk-linux-im-not-okay \
             --dir "$GITHUB_WORKSPACE/custom-jdk"
 
       - name: Unpack and activate custom JDK
         run: |
           mkdir -p "$GITHUB_WORKSPACE/custom-jdk/unpacked"
-          tar -xzf "$GITHUB_WORKSPACE/custom-jdk/custom-jdk-linux-9ad2e63f1763.tar.gz" \
+          tar -xzf "$GITHUB_WORKSPACE/custom-jdk/custom-jdk-linux-im-not-okay.tar.gz" \
             -C "$GITHUB_WORKSPACE/custom-jdk/unpacked"
 
           echo "JAVA_HOME=$GITHUB_WORKSPACE/custom-jdk/unpacked/jdk" >> "$GITHUB_ENV"
           echo "$GITHUB_WORKSPACE/custom-jdk/unpacked/jdk/bin" >> "$GITHUB_PATH"
+
+      - name: Verify Java
+        run: |
+          java -version
+          echo "JAVA_HOME=$JAVA_HOME"
+          java -XX:+UnlockExperimentalVMOptions -XX:+UseImNotOkayGC -version
+
           
       - name: Build Process Watcher
         uses: cdsap/build-process-watcher@v0.6.0
